@@ -1,7 +1,7 @@
 window.app = Vue.createApp({
   el: '#vue',
   mixins: [window.windowMixin],
-  data: function () {
+  data() {
     return {
       auditEntries: [],
       searchData: {
@@ -198,7 +198,7 @@ window.app = Vue.createApp({
       this.auditDetailsDialog.data = JSON.stringify(details, null, 4)
       this.auditDetailsDialog.show = true
     },
-    formatDate: function (value) {
+    formatDate(value) {
       return Quasar.date.formatDate(new Date(value), 'YYYY-MM-DD HH:mm')
     },
     shortify(value) {

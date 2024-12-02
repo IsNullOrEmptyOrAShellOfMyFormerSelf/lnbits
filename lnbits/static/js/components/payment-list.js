@@ -3,7 +3,7 @@ window.app.component('payment-list', {
   template: '#payment-list',
   props: ['update', 'wallet', 'mobileSimple', 'lazy'],
   mixins: [window.windowMixin],
-  data: function () {
+  data() {
     return {
       denomination: LNBITS_DENOMINATION,
       payments: [],
@@ -113,8 +113,8 @@ window.app.component('payment-list', {
     }
   },
   computed: {
-    filteredPayments: function () {
-      var q = this.paymentsTable.search
+    filteredPayments() {
+      const q = this.paymentsTable.search
       if (!q || q === '') return this.payments
 
       return LNbits.utils.search(this.payments, q)
@@ -125,12 +125,12 @@ window.app.component('payment-list', {
       }
       return this.payments
     },
-    pendingPaymentsExist: function () {
+    pendingPaymentsExist() {
       return this.payments.findIndex(payment => payment.pending) !== -1
     }
   },
   methods: {
-    fetchPayments: function (props) {
+    fetchPayments(props) {
       const params = LNbits.utils.prepareFilterQuery(this.paymentsTable, props)
       return LNbits.api
         .getPayments(this.wallet, params)
@@ -146,7 +146,7 @@ window.app.component('payment-list', {
           LNbits.utils.notifyApiError(err)
         })
     },
-    paymentTableRowKey: function (row) {
+    paymentTableRowKey(row) {
       return row.payment_hash + row.amount
     },
     exportCSV(detailed = false) {
@@ -191,7 +191,7 @@ window.app.component('payment-list', {
         )
       })
     },
-    addFilterTag: function () {
+    addFilterTag() {
       if (!this.exportTagName) return
       const value = this.exportTagName.trim()
       this.exportPaymentTagList = this.exportPaymentTagList.filter(
@@ -200,12 +200,12 @@ window.app.component('payment-list', {
       this.exportPaymentTagList.push(value)
       this.exportTagName = ''
     },
-    removeExportTag: function (value) {
+    removeExportTag(value) {
       this.exportPaymentTagList = this.exportPaymentTagList.filter(
         v => v !== value
       )
     },
-    formatCurrency: function (amount, currency) {
+    formatCurrency(amount, currency) {
       try {
         return LNbits.utils.formatCurrency(amount, currency)
       } catch (e) {
@@ -215,14 +215,14 @@ window.app.component('payment-list', {
     }
   },
   watch: {
-    lazy: function (newVal) {
+    lazy(newVal) {
       if (newVal === true) this.fetchPayments()
     },
-    update: function () {
+    update() {
       this.fetchPayments()
     }
   },
-  created: function () {
+  created() {
     if (this.lazy === undefined) this.fetchPayments()
   }
 })
